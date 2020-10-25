@@ -48,32 +48,30 @@ def to_reverse_complement(string):
 
     return reverse_complement
 
-
-def find_frequency_GC(reads):
-    """takes a list of DNA strings and returns the ratio of GC pairs to the total number of pairs"""
-
+def get_frequency_GC(reads):
+    """ get the ratio of GC pairs to the total number of  pairs from a list of DNA strings"""
+    
+    GC = []
+    AT = []
     for read in reads:
-        GC = [0] * (len(read))
-        total = [0] * len(read)
-
-        for i in range(len(read)):
-            if read[i] == 'C' or read[i] == 'G':
-                GC[i] += 1
+        for i  in read:
+            if i == 'C' or i == 'G':
+                GC.append(1)
             else:
-                total[i] += 1
-        # ToDo: check this out.
-        return float(sum(total)/sum(GC))
+                AT.append(1)
+    total = sum(GC+AT)
+    return float(sum(GC)/total)
 
 
-def frequency_str_GC(string):
-    GC = 0
-    total = [0] * len(string)
-
+def get_frequency_GC_str(string):
+    """ get the ratio of GC pairs to the total number of  pairs from a  DNA strings """
+    
+    GC = []
+    total = len(string)
     for i in string:
-        if i == 'C' or i == 'G':
-            GC += 1
-
-    return float(total/GC)
+            if i == 'C' or i == 'G':
+                GC.append(1)
+    return float(sum(GC)/total)
 
 
 def find_exacte_matching(pattern, string):
@@ -94,6 +92,7 @@ def find_exacte_matching(pattern, string):
 
 def phred33ToQ(quolity):
     """convert character to quolity score  accroding to ASCII table"""
+    
     return ord(quolity) - 33
 
 
