@@ -11,8 +11,11 @@ def nucleo_counter_2(seq):
 
 
 def readFASTQ(file):
-    """reads a FASTQ file and returns a list of dna strings and a list  of strings
-        of quolity encoding  symbols"""
+    """reads a FASTQ file and returns a dictionary,
+        if you need to extract a list of reads use: 
+        reads= readFASTQ(file)['sequence'],
+        if you need a list of qualities use:
+        quality = eadFASTQ(file)['quality'] """
 
     sequence = []
     quality = []
@@ -28,7 +31,28 @@ def readFASTQ(file):
             else:
                 sequence.append(seq)
                 quality.append(quol)
-    return sequence, quality
+    return {'sequence': sequence, 'quality': quality}
+
+
+def longest_common_prefix(string1, string2):
+    """get the longest common prefix in two strings"""
+
+    i = 0
+    while i < len(string1) and len(string2) and string1[1] == string2[i]:
+        i += 1
+        return string1[:i]
+
+
+def strings_matches(string1, string2):
+    """checks if strings are the same"""
+
+    if len(string1) != len(string2):
+        return False
+    for i in range(len(string1)):
+        if string1[i] != string2[i]:
+            return False
+    else:
+        return True
 
 
 def to_sting(reads):
@@ -48,13 +72,14 @@ def to_reverse_complement(string):
 
     return reverse_complement
 
+
 def get_frequency_GC(reads):
     """ get the ratio of GC pairs to the total number of  pairs from a list of DNA strings"""
-    
+
     GC = []
     AT = []
     for read in reads:
-        for i  in read:
+        for i in read:
             if i == 'C' or i == 'G':
                 GC.append(1)
             else:
@@ -65,12 +90,12 @@ def get_frequency_GC(reads):
 
 def get_frequency_GC_str(string):
     """ get the ratio of GC pairs to the total number of  pairs from a  DNA strings """
-    
+
     GC = []
     total = len(string)
     for i in string:
-            if i == 'C' or i == 'G':
-                GC.append(1)
+        if i == 'C' or i == 'G':
+            GC.append(1)
     return float(sum(GC)/total)
 
 
@@ -92,7 +117,7 @@ def find_exacte_matching(pattern, string):
 
 def phred33ToQ(quolity):
     """convert character to quolity score  accroding to ASCII table"""
-    
+
     return ord(quolity) - 33
 
 
